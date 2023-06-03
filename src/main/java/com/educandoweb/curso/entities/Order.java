@@ -2,17 +2,21 @@ package com.educandoweb.curso.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonValueFormat;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 
@@ -32,11 +36,26 @@ public class Order implements Serializable{
 	@JoinColumn(name = "client_id")
 	private User client; 
 	
+	@OneToMany(mappedBy = "id.order")
+	private Set<OrderItem> items = new HashSet<>();
+	
+	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+	
+	private Payment payment;
+	
 	
 	public  Order(){
 		
 	}
 	
+	public Set<OrderItem> getItems() {
+		return items;
+	}
+
+	public void setItems(Set<OrderItem> items) {
+		this.items = items;
+	}
+
 	public Order(Long id, Instant moment, User client) {
 		super();
 		this.id = id;
@@ -70,7 +89,10 @@ public class Order implements Serializable{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
 
 	@Override
@@ -83,6 +105,14 @@ public class Order implements Serializable{
 			return false;
 		Order other = (Order) obj;
 		return Objects.equals(id, other.id);
+	}
+
+	public Payment getPayment() {
+		return payment;
+	}
+
+	public void setPayment(Payment payment) {
+		this.payment = payment;
 	}
 
 	 
