@@ -61,9 +61,9 @@ public class TestConfig implements CommandLineRunner {
 		//produtos e categorias juntos
 		p1.getCategories().add(cat5);
 		p2.getCategories().add(cat3);
-		p2.getCategories().add(cat1);
-		p3.getCategories().add(cat1);
-		p4.getCategories().add(cat4);
+//		p2.getCategories().add(cat1);
+//		p3.getCategories().add(cat1);
+//		p4.getCategories().add(cat4);
 		productRepository.saveAll(Arrays.asList(p1,p2));
 		
 		
@@ -80,10 +80,9 @@ public class TestConfig implements CommandLineRunner {
 		
 		
 		OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
-		OrderItem oi2 = new OrderItem(o1, p2, 1, p3.getPrice());
-		OrderItem oi3 = new OrderItem(o2, p2, 2, p2.getPrice());
+		OrderItem oi2 = new OrderItem(o2, p2, 2, p2.getPrice());
 		
-		orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3));
+		orderItemRepository.saveAll(Arrays.asList(oi1, oi2));
 		
 		Payment pay1 = new Payment(null,Instant.parse("2023-05-20T22:53:07Z"), o1 );
 		o1.setPayment(pay1);
